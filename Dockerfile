@@ -22,7 +22,7 @@ RUN lein uberjar
 
 # Native Image
 COPY compile-native-image .
-RUN ./compile-native-image target/uhttp.jar uhttp
+RUN ./compile-native-image target/uhttp.jar uhttp --static
 
 FROM busybox:glibc
 WORKDIR /opt/app
