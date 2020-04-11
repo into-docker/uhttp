@@ -21,28 +21,8 @@ COPY resources resources
 RUN lein uberjar
 
 # Native Image
-RUN $GRAALVM_HOME/bin/native-image \
-      -jar target/uhttp.jar \
-      -H:Name=uhttp\
-      --static \
-      --no-server \
-      --no-fallback \
-      --enable-http \
-      --enable-https \
-      --enable-all-security-services \
-      --initialize-at-build-time \
-      --initialize-at-run-time=org.newsclub.net.unix.NativeUnixSocket \
-      --allow-incomplete-classpath \
-      --report-unsupported-elements-at-runtime \
-      -H:EnableURLProtocols=http,https \
-      -H:ResourceConfigurationResources=unixsocket/graalvm/resource-config.json \
-      -H:ReflectionConfigurationResources=unixsocket/graalvm/reflect-config.json \
-      -H:JNIConfigurationResources=unixsocket/graalvm/jni-config.json \
-      -H:+ReportExceptionStackTraces \
-      -H:+JNI \
-      -J-Dclojure.spec.skip-macros=true \
-      -J-Dclojure.compiler.direct-linking=true \
-      -J-Xmx3g
+COPY compile-native-image .
+RUN ./compile-native-image target/uhttp.jar uhttp
 
 FROM busybox:glibc
 WORKDIR /opt/app
