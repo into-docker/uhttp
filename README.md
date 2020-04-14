@@ -32,10 +32,8 @@ and is writeable.
 This will send an HTTP request over the given UNIX Domain Socket. For example, to ping
 the Docker daemon:
 
-```sh
-$ docker run --rm -it \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    uhttp /var/run/docker.sock /_ping
+```
+$ ./uhttp /var/run/docker.sock /_ping
 {:status 200, :headers {"api-version" "1.40", "server" "Docker/19.03.2 (linux)", "content-type" "text/plain; charset=utf-8", "content-length" "2", "docker-experimental" "false", "pragma" "no-cache", "date" "Sat, 11 Apr 2020 15:47:35 GMT", "ostype" "linux", "cache-control" "no-cache, no-store, must-revalidate"}, :body "OK"}
 ```
 
@@ -45,7 +43,7 @@ This will run a small diagnostics program, attempting to load the native library
 using a mechanism very close to what [junixsocket][] actually does:
 
 ```
-$ docker run --rm -it uhttp
+$ ./uhttp
 Native Library:  libjunixsocket-native-2.3.2.so
   Architecture:  amd64
   OS:            Linux
