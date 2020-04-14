@@ -10,25 +10,22 @@ be compiled using GraalVM.
 
 ## Build
 
-The `Dockerfile` contained in this repository will build the Uberjar and create
-a [native-image][] that is then injected into a `busybox` base image.
+Make sure you have [native-image][] installed and run:
 
 ```sh
-$ docker build -t uhttp .
+lein uberjar
+$GRAALVM_HOME/bin/native-image -jar target/uhttp.jar -H:Name=uhttp
 ```
 
-The resulting Docker image will be comparatively small:
-
-```sh
-$ docker images uhttp
-REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
-uhttp               latest              275f9adddcce        About a minute ago   34.9MB
-```
+Afterwards, you should have `uhttp` binary available. Note that all native-image
+configuration is part of the Uberjar.
 
 ## Run
 
-The native image can be run on any platform that provides [glibc][] and is supported by [junixsocket][] (the underlying Java/Native bridge). You also need to ensure that the
-directory identified by the property `java.io.tmpdir` exists and is writeable.
+The native image can be run on any platform that provides [glibc][] and is
+supported by [junixsocket][] (the underlying Java/Native bridge). You also need
+to ensure that the directory identified by the property `java.io.tmpdir` exists
+and is writeable.
 
 ### `uhttp <socket> <path>`
 
@@ -44,8 +41,8 @@ $ docker run --rm -it \
 
 ### `uhttp`
 
-This will run a small diagnostics program, attempting to load the native library using
-a mechanism very close to what [junixsocket][] actually does:
+This will run a small diagnostics program, attempting to load the native library
+using a mechanism very close to what [junixsocket][] actually does:
 
 ```
 $ docker run --rm -it uhttp

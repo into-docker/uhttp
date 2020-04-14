@@ -1,5 +1,4 @@
 .git/
 .gitignore
 target/
-graalvm/Dockerfile
 .dockerignore
