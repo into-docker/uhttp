@@ -6,7 +6,7 @@
             :year 2020
             :key "mit"}
   :dependencies [[org.clojure/clojure "1.10.1"]
-                 [unixsocket-http "1.0.3"]]
+                 [unixsocket-http "1.0.4"]]
 
   :profiles {:uberjar {:uberjar-name "uhttp.jar"
                        :global-vars  {*assert* false}
