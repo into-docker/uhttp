@@ -39,4 +39,4 @@ jobs:
           chmod +x uhttp
 
       - name: verify-result
-        run: uhttp/uhttp
+        run: ./uhttp
