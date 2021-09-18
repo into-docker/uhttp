@@ -7,7 +7,7 @@
             :key "mit"
             :comment "MIT License"}
   :dependencies [[org.clojure/clojure "1.10.2"]
-                 [unixsocket-http "LATEST"]]
+                 [unixsocket-http "1.0.8"]]
 
   :profiles {:uberjar {:uberjar-name "uhttp.jar"
                        :global-vars  {*assert* false}
