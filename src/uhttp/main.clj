@@ -3,12 +3,23 @@
   (:require [unixsocket-http.core :as uhttp]
             [clojure.java.io :as io])
   (:import [org.newsclub.lib.junixsocket.common NarMetadata]
-           [java.io File]))
+           [org.newsclub.net.unix AFUNIXSocket]
+           [java.io File]
+           [java.util Properties]))
+
+(defn- junixsocket-version
+  []
+  (let [path "/META-INF/maven/com.kohlschutter.junixsocket/junixsocket-common/pom.properties"]
+    (with-open [in (.getResourceAsStream AFUNIXSocket path)]
+      (-> (doto (Properties.)
+            (.load in))
+          (.getProperty "version")))))
 
 (defn run-selftest
   "Attempt to load the native library."
   []
-  (let [library (System/mapLibraryName "junixsocket-native-2.3.4")
+  (let [library (System/mapLibraryName
+                  (str "junixsocket-native-" (junixsocket-version)))
         arch    (System/getProperty "os.arch")
         os      (-> (System/getProperty "os.name") (.replaceAll " " ""))
         path    (format "/lib/%s-%s-clang/jni/%s" arch os library)
