@@ -25,17 +25,15 @@ jobs:
         with:
           lein: 2.9.1
       - name: setup-graalvm-ce
-        uses: DeLaGuardo/setup-graalvm@4.0
+        uses: graalvm/setup-graalvm@v1
         with:
-          graalvm: "20.3.0"
-          java: "java11"
-      - name: setup-native-image
-        run: gu install native-image
+          distribution: "graalvm-community"
+          java-version: "21"
 
       - name: compile-native-image
         run: |
           lein uberjar
-          native-image -jar target/uhttp.jar -H:Name=uhttp
+          native-image -jar target/uhttp.jar -o uhttp
           chmod +x uhttp
 
       - name: verify-result
