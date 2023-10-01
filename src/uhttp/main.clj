@@ -15,15 +15,24 @@
             (.load in))
           (.getProperty "version")))))
 
+(defn- arch-and-os
+  []
+  (let [arch    (System/getProperty "os.arch")
+        os      (-> (System/getProperty "os.name") (.replaceAll " " ""))]
+    ;; Look, this is a fix for Github Actions' MacOS runner. I know this is not
+    ;; pretty.
+    (case [arch os]
+      ["amd64" "MacOSX"] ["x86_64" "MacOSX"]
+      [arch os])))
+
 (defn run-selftest
   "Attempt to load the native library."
   []
-  (let [library (System/mapLibraryName
-                  (str "junixsocket-native-" (junixsocket-version)))
-        arch    (System/getProperty "os.arch")
-        os      (-> (System/getProperty "os.name") (.replaceAll " " ""))
-        path    (format "/lib/%s-%s-clang/jni/%s" arch os library)
-        tmp-dir (System/getProperty "java.io.tmpdir")]
+  (let [library   (System/mapLibraryName
+                    (str "junixsocket-native-" (junixsocket-version)))
+        [arch os] (arch-and-os)
+        path      (format "/lib/%s-%s-clang/jni/%s" arch os library)
+        tmp-dir   (System/getProperty "java.io.tmpdir")]
     (println "Native Library: " library)
     (println "  Architecture: " arch)
     (println "  OS:           " os)
